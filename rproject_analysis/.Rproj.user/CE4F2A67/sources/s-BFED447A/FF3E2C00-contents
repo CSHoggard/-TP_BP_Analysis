@@ -1,0 +1,87 @@
+### SCRIPT NOTES: BEN'S EXPERIMENT ###
+### SCRIPT AUTHOR: Christian Steven Hoggard ###
+### SCRIPT CONTACT: C.Hoggard@soton.ac.uk / Christianhoggard@gmail.com ###
+### LAST EDITED: 21/10/2019 ###
+
+### SYSTEM INFORMATION ###
+### R version 3.6.1 (2019-07-05) ###
+### Platform: x86_64-w64-mingw32/x64 (64-bit) ###
+### Running under: Windows 10 x64 (build 18362) ###
+
+if(!require("tidyverse")) install.packages('tidyverse', repos='http://cran.us.r-project.org') ### tidyverse 1.2.1
+if(!require("rms")) install.packages('rms', repos='http://cran.us.r-project.org') ### rms 5.1-3.1
+if(!require("ggpubr")) install.packages('ggpubr', repos='http://cran.us.r-project.org') ### ggpubr 0.2.3
+
+dataset <- as.data.frame(readxl::read_excel("blind_test.xlsx", col_names = TRUE)) ### load the data frame
+compdata<- read.csv("comparison.csv", header = T, row.names = 1) ### load the comparative dataset
+compdata <- select(compdata, "Contact Material" = contact_material, "Study" = study, "Percentage" = percentage)
+
+df1 <- select(dataset, "classification_id1" = UCT1, W)
+df2 <- select(dataset, "classification_id2" = UCT2, W)
+df3 <- select(dataset, "classification_id3" = UCT3, W)
+df4 <- select(dataset, "classification_id4" = UCT4, W)
+
+df1$classification_id1 <- as.factor(df1$classification_id1)
+df2$classification_id2 <- as.factor(df2$classification_id2)
+df3$classification_id3 <- as.factor(df3$classification_id3)
+df4$classification_id4 <- as.factor(df4$classification_id4)
+
+fig1a <- ggplot(df1, aes(classification_id1, W)) + geom_jitter(width = 0.15, size = 2, aes(colour = classification_id1)) + ylim(0,1) + labs(x = "Classification", y = "Weight (g)") + scale_colour_manual(values=c("#56B4E9", "#E69F00")) + theme_minimal() + theme(legend.position = "none")
+fig1b <- ggplot(df2, aes(classification_id2, W)) + geom_jitter(width = 0.15, size = 2, aes(colour = classification_id2)) + ylim(0,1) + labs(x = "Classification", y = "Weight (g)") + scale_colour_manual(values=c("#56B4E9", "#E69F00")) + theme_minimal() + theme(legend.position = "none")
+fig1c <- ggplot(df3, aes(classification_id3, W)) + geom_jitter(width = 0.15, size = 2, aes(colour = classification_id3)) + ylim(0,1) + labs(x = "Classification", y = "Weight (g)") + scale_colour_manual(values=c("#56B4E9", "#E69F00")) + theme_minimal() + theme(legend.position = "none")
+fig1d <- ggplot(df4, aes(classification_id4, W)) + geom_jitter(width = 0.15, size = 2, aes(colour = classification_id4)) + ylim(0,1) + labs(x = "Classification", y = "Weight (g)") + scale_colour_manual(values=c("#56B4E9", "#E69F00")) + theme_minimal() + theme(legend.position = "none")
+ggarrange(fig1a, fig1b, fig1c, fig1d, labels = c("A", "B", "C", "D"), ncol = 2, nrow = 2, font.label = list(size = 11))
+ggsave("figure_1.tiff", width = 140, height = 100, units = "mm")
+
+glm1 <- glm(classification_id1 ~ W, df1, family = binomial) ### generalised linear model (binomial)
+glm2 <- glm(classification_id2 ~ W, df2, family = binomial) ### generalised linear model (binomial)
+glm3 <- glm(classification_id3 ~ W, df3, family = binomial) ### generalised linear model (binomial)
+glm4 <- glm(classification_id4 ~ W, df4, family = binomial) ### generalised linear model (binomial)
+
+summary(glm1) ### summary (inc. parameter signifiance)
+summary(glm2) ### summary (inc. parameter signifiance)
+summary(glm3) ### summary (inc. parameter signifiance)
+summary(glm4) ### summary (inc. parameter signifiance)
+
+fig2a <- ggplot(df1, aes(x=W, y=as.numeric(df1$classification_id1) - 1)) + geom_point(size = 2, aes(colour = classification_id1)) + stat_smooth(method="glm", se=TRUE, colour = "dark grey", method.args = list(family=binomial)) +  labs(x = "Weight (g)", y = "Classification") + scale_x_continuous(breaks=c(0,0.25,0.5,0.75)) + scale_y_continuous(breaks=c(0,1)) + theme_minimal() + theme(legend.position = "none") + scale_colour_manual(values=c("#56B4E9", "#E69F00"))
+fig2b <- ggplot(df2, aes(x=W, y=as.numeric(df2$classification_id2) - 1)) + geom_point(size = 2, aes(colour = classification_id2)) + stat_smooth(method="glm", se=TRUE, colour = "dark grey", method.args = list(family=binomial)) +  labs(x = "Weight (g)", y = "Classification") + scale_x_continuous(breaks=c(0,0.25,0.5,0.75)) + scale_y_continuous(breaks=c(0,1)) + theme_minimal() + theme(legend.position = "none") + scale_colour_manual(values=c("#56B4E9", "#E69F00"))
+fig2c <- ggplot(df3, aes(x=W, y=as.numeric(df3$classification_id3) - 1)) + geom_point(size = 2, aes(colour = classification_id3)) + stat_smooth(method="glm", se=TRUE, colour = "dark grey", method.args = list(family=binomial)) +  labs(x = "Weight (g)", y = "Classification") + scale_x_continuous(breaks=c(0,0.25,0.5,0.75)) + scale_y_continuous(breaks=c(0,1)) + theme_minimal() + theme(legend.position = "none") + scale_colour_manual(values=c("#56B4E9", "#E69F00"))
+fig2d <- ggplot(df4, aes(x=W, y=as.numeric(df4$classification_id4) - 1)) + geom_point(size = 2, aes(colour = classification_id4)) + stat_smooth(method="glm", se=TRUE, colour = "dark grey", method.args = list(family=binomial)) +  labs(x = "Weight (g)", y = "Classification") + scale_x_continuous(breaks=c(0,0.25,0.5,0.75)) + scale_y_continuous(breaks=c(0,1)) + theme_minimal() + theme(legend.position = "none") + scale_colour_manual(values=c("#56B4E9", "#E69F00"))
+figure_2<-ggarrange(fig2a, fig2b, fig2c, fig2d, labels = c("A", "B", "C", "D"), ncol = 2, nrow = 2, font.label = list(size = 11))
+annotate_figure(figure_2, bottom = text_grob("0: Correct  1: Incorrect", color = "black", face = "bold", size = 13))
+ggsave("figure_2.tiff", width = 160, height = 100, units = "mm")
+
+glm1$null.deviance ### null deviance value (log-likelihood values)
+glm1$deviance ### deviance value (log-likelihood values)
+glm2$null.deviance ### null deviance value (log-likelihood values)
+glm2$deviance ### deviance value (log-likelihood values)
+glm3$null.deviance ### null deviance value (log-likelihood values)
+glm3$deviance ### deviance value (log-likelihood values)
+glm4$null.deviance ### null deviance value (log-likelihood values)
+glm4$deviance### deviance value (log-likelihood values)
+
+modelchi1 <- glm1$null.deviance - glm1$deviance ### model chi square value (csv)
+modelchi2 <- glm2$null.deviance - glm2$deviance ### model chi square value (csv)
+modelchi3 <- glm3$null.deviance - glm3$deviance ### model chi square value (csv)
+modelchi4 <- glm4$null.deviance - glm4$deviance ### model chi square value (csv)
+modelchi1 ### call csv
+modelchi2 ### call csv
+modelchi3 ### call csv
+modelchi4 ### call csv
+
+pseudo.r2.gml1 <- modelchi1 / glm1$null.deviance ### pseudo r-square (Hosmer and Lemeshow r-square)
+pseudo.r2.gml2 <- modelchi2 / glm2$null.deviance ### pseudo r-square (Hosmer and Lemeshow r-square)
+pseudo.r2.gml3 <- modelchi3 / glm3$null.deviance ### pseudo r-square (Hosmer and Lemeshow r-square)
+pseudo.r2.gml4 <- modelchi4 / glm4$null.deviance ### pseudo r-square (Hosmer and Lemeshow r-square)
+
+chisq.prob.1 <- 1 - pchisq(modelchi1, (glm1$df.null - glm1$df.residual)) ### pseudo p value (likelihood ratio p-value: model significance)
+chisq.prob.2 <- 1 - pchisq(modelchi2, (glm2$df.null - glm2$df.residual)) ### pseudo p value (likelihood ratio p-value: model significance)
+chisq.prob.3 <- 1 - pchisq(modelchi3, (glm3$df.null - glm3$df.residual)) ### pseudo p value (likelihood ratio p-value: model significance)
+chisq.prob.4 <- 1 - pchisq(modelchi4, (glm4$df.null - glm4$df.residual)) ### pseudo p value (likelihood ratio p-value: model significance)
+
+figure_3 <- ggplot(compdata, aes(`Contact Material`, Percentage, fill = Study)) + geom_bar(stat="identity", color="black", position=position_dodge()) + theme_minimal() + ylim(0, 60) + scale_fill_brewer(palette="Paired") + labs(y = "Percent of correct responses (%)") + geom_text(aes(label=Percentage), vjust=1.6, color="white", position = position_dodge(0.9), size=3.5)
+ggsave("figure_3.tiff", width = 120, height = 120, units = "mm")
+
+chisq.test(table(compdata$Study, compdata$Percentage))
+
+           
