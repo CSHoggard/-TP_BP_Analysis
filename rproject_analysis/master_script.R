@@ -52,9 +52,23 @@ tanged.points$Context <- as.character(tanged.points$Context)
 outlinebp <- Out(backedpoints$coo, fac = backed.points)
 outlinebp <- filter(outlinebp, Burinated=="N") ### removal of burinated examples
 outlinebp <- filter(outlinebp, OTT=="Y") ### removal of cutting edges less than two-thirds
+summary(outlinebp$ATU)
+summary(outlinebp$ATU2)
+summary(outlinebp$NAT)
+
+outlinebpatu  <- filter(outlinebp, !ATU %in% "Unspecified", !ATU %in% "Multiple")
+outlinebpatu2 <- filter(outlinebp, !ATU2 %in% "Unspecified")
+outlinebpNAT  <- filter(outlinebp, !NAT %in% "Backed Point (Unspecified)")
+summary(outlinebpatu$ATU)
+summary(outlinebpatu2$ATU2)
+summary(outlinebpNAT$NAT)
 
 outlinetp <- Out(tangedpoints$coo, fac = tanged.points)
 outlinetp <- filter(outlinetp, Burinated=="N") ### removal of burinated examples
+
+outlinetpatu <- filter(outlinetp, )
+outlinetpatu <- filter(outlinetp, )
+outlinetpNAT <- filter(outlinetp, )
 
 ### STAGE 3B: EXAMINATION OF DATA (FOLLOWING SCREENING) ###
 
