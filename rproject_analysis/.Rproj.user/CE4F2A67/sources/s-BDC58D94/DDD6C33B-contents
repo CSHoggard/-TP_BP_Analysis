@@ -416,21 +416,21 @@ ggtree(bpNATml)  ### GGTREE LAYOUT
 ggtree(tpNATml)  ### GGTREE LAYOUT
 
 ggtree(bpml) + theme_tree() + geom_nodepoint()
-ggsave("images/bpml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 250, units = "mm")
+ggsave("images/bpml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 ggtree(tpml) + theme_tree() + geom_nodepoint() 
-ggsave("images/tpml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 250, units = "mm")
+ggsave("images/tpml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 ggtree(bpatuml) + theme_tree() + geom_nodepoint()
-ggsave("images/bpatuml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 250, units = "mm")
+ggsave("images/bpatuml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 ggtree(tpatuml) + theme_tree() + geom_nodepoint()
-ggsave("images/tpatuml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 250, units = "mm")
+ggsave("images/tpatuml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 ggtree(bpatu2ml) + theme_tree() + geom_nodepoint()
-ggsave("images/bpatu2ml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 250, units = "mm")
+ggsave("images/bpatu2ml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 ggtree(tpatu2ml) + theme_tree() + geom_nodepoint()
-ggsave("images/tpatu2ml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 250, units = "mm")
+ggsave("images/tpatu2ml.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 ggtree(bpNATml) + theme_tree() + geom_nodepoint()
-ggsave("images/bpNAT.tiff", plot = last_plot(), dpi = 300, height = 250, width = 250, units = "mm")
+ggsave("images/bpNAT.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 ggtree(tpNATml) + theme_tree() + geom_nodepoint()
-ggsave("images/tpNAT.tiff", plot = last_plot(), dpi = 300, height = 250, width = 250, units = "mm")
+ggsave("images/tpNAT.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 
 ###############
 
@@ -465,24 +465,29 @@ ggtree(tpml) %<+% tpmldata + geom_tippoint(aes(colour = ATU2)) + theme_minimal()
 ggtree(tpml) %<+% tpmldata + geom_tiplab(aes(colour = NAT, align = TRUE), size = 3) + theme_minimal()
 ggtree(tpml) %<+% tpmldata + geom_tippoint(aes(colour = NAT)) + theme_minimal()
 
-ggtree(bpatuml) %<+% bpatumldata + geom_tiplab(aes(colour = ATU, align = TRUE), size = 3) + theme_minimal()
-ggtree(bpatuml) %<+% bpatumldata + geom_tippoint(aes(colour = ATU)) + theme_minimal()
+ggtree(bpatuml) %<+% bpatumldata + geom_tiplab(aes(colour = ATU, align = TRUE), size = 3) + theme_minimal() + scale_color_manual(values = c("#D43F3A", "#EEA236", "#5BB85C", "#D8099C", "#46B8DA", "#357EBD", "#9632B8", "#767676", "#8F3931", "#340E20"))
+ggtree(bpatuml) %<+% bpatumldata + geom_tippoint(aes(colour = ATU), size = 2) + theme_minimal() + scale_color_manual(values = c("#D43F3A", "#EEA236", "#5BB85C", "#D8099C", "#46B8DA", "#357EBD", "#9632B8", "#767676", "#8F3931", "#340E20"))
+ggsave("images/bpatu_tree.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 
 ggtree(bpatu2ml) %<+% bpatu2mldata + geom_tiplab(aes(colour = ATU2, align = TRUE), size = 3) + theme_minimal()
 ggtree(bpatu2ml) %<+% bpatu2mldata + geom_tippoint(aes(colour = ATU2)) + theme_minimal()
+ggsave("images/bpatu2_tree.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 
 ggtree(bpNATml) %<+% bpNATmldata + geom_tiplab(aes(colour = NAT, align = TRUE), size = 3) + theme_minimal()
 ggtree(bpNATml) %<+% bpNATmldata + geom_tippoint(aes(colour = NAT)) + theme_minimal()
+ggsave("images/bpNAT_tree.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 
-ggtree(tpatuml) %<+% tpatumldata + geom_tiplab(aes(colour = ATU, align = TRUE), size = 3) + theme_minimal()
-ggtree(tpatuml) %<+% tpatumldata + geom_tippoint(aes(colour = ATU)) + theme_minimal()
+ggtree(tpatuml) %<+% tpatumldata + geom_tiplab(aes(colour = ATU, align = TRUE), size = 3) + theme_minimal() + scale_color_manual(values = c("#D43F3A", "#EEA236", "#5BB85C", "#D8099C", "#46B8DA", "#357EBD", "#9632B8", "#767676"))
+ggtree(tpatuml) %<+% tpatumldata + geom_tippoint(aes(colour = ATU)) + theme_minimal() + scale_color_manual(values = c("#D43F3A", "#EEA236", "#5BB85C", "#D8099C", "#46B8DA", "#357EBD", "#9632B8", "#767676"))
+ggsave("images/tpatu_tree.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 
 ggtree(tpatu2ml) %<+% tpatu2mldata + geom_tiplab(aes(colour = ATU2, align = TRUE), size = 3) + theme_minimal()
 ggtree(tpatu2ml) %<+% tpatu2mldata + geom_tippoint(aes(colour = ATU2)) + theme_minimal()
+ggsave("images/tpatu2_tree.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 
 ggtree(tpNATml) %<+% tpNATmldata + geom_tiplab(aes(colour = NAT, align = TRUE), size = 3) + theme_minimal()
-ggtree(tpNATml) %<+% tpNATmldata + geom_tippoint(aes(colour = NAT)) + theme_minimal()
-
+ggtree(tpNATml) %<+% tpNATmldata + geom_tippoint(aes(colour = NAT)) + theme_minimal() + scale_color_manual(values=c("#a6cee3","#b2df8a","#33a02c","#fb9a99","#1f78b4","#e31a1c","#fdbf6f","#ff7f00","#6a3d9a","#ffff99","#cab2d6")) 
+ggsave("images/tpNAT_tree.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
 
 #####
 
