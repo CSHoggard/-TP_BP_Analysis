@@ -5,7 +5,7 @@
     "dirty" : false,
     "encoding" : "ISO8859-1",
     "folds" : "",
-    "hash" : "3144422115",
+    "hash" : "0",
     "id" : "DDD6C33B",
     "lastKnownWriteTime" : 1574686788,
     "last_content_update" : 1574686788833,
@@ -13,7 +13,7 @@
     "project_path" : "master_script.R",
     "properties" : {
         "cursorPosition" : "491,0",
-        "scrollLine" : "480"
+        "scrollLine" : "479"
     },
     "read_only" : false,
     "read_only_alternatives" : [
