@@ -558,3 +558,98 @@ plot(tpmap,  main = "Self Organising Map (SOM) of PC variance")
 plot(tpmap, type = "count") # counts in each node
 plot(tpmap, main = "Self Organising Map (SOM) of PC variance", type = "mapping") # counts in each node
 
+### Making a holotype (case study) tree
+
+### Extract all examples, combine as an out, extract mean shapes and then tree
+### Bromme Point	                    Bromme
+### Ahrensburgian Point	              Stellmoor
+### Hamburgian (Classic) Point	      Meindorf
+### Hamburgian (Havelte) Point	      Havelte Holtingerzand
+### Grensk Point	                    Grensk
+### Creswellian Point	                Siegerswoude
+### Cheddar Point	                    Aveline's Hole
+### Federmesser Point	                Stoksbjerg Vest
+### Lyngby Point	                    Nørre Lyngby
+### Appelscha Point 	                Appelscha
+### Azilian Point	                    Les Chaloignes
+### Blanchère Point	                  Blanchères
+### Kalbe Point	                      Berlin-Tegel
+### Malaurie Point	                  Champ-Chalatras
+### Petersfels Point	                Borneck-Bornwisch
+### Ranis Point	                      Wehlen
+### Taucha Point	                    Taucha
+### Tjonger Point	                    Usselo
+### Westerbeck Point	                Westerbeck
+### Zonhoven Point	                  Zonhoven-Molenheide
+### Altinovo Point	                  Borovka
+### Krasnosillya Point	              Krasnosillya
+### Teyjat Point	                    Bois-Ragot
+
+Hamburgian <- import_tps("TPS_Hamburgian.tps", curves = TRUE) ### import .tps file
+hamburgian.points <- read.csv("hamburgian.points.csv", header = TRUE, sep = ",", encoding = "UTF-8", row.names = 1)
+Hamburgian <- Out(Hamburgian$coo, fac = hamburgian.points)
+
+Bro  <- filter(outlinetp, Site=="Bromme")
+Bro  <- select(Bro, Site) %>% mutate(Holotype= "Bromme Point")
+Ahr  <- filter(outlinetp, Site=="Stellmoor")
+Ahr  <- select(Ahr, Site) %>% mutate(Holotype= "Ahrensburgian Point")
+Gre  <- filter(outlinetp, Site=="Grensk")
+Gre  <- select(Gre, Site) %>% mutate(Holotype= "Grensk Point")
+Cre  <- filter(outlinebp, Site=="Siegerswoude")
+Cre  <- select(Cre, Site) %>% mutate(Holotype= "Creswellian Point")
+Che  <- filter(outlinebp, Site=="Aveline's Hole")
+Che  <- select(Che, Site) %>% mutate(Holotype= "Cheddar Point")
+Fed  <- filter(outlinebp, Site=="Stoksbjerg Vest")
+Fed  <- select(Fed, Site) %>% mutate(Holotype= "Federmesser Point")
+HamC <- filter(Hamburgian, Site=="Meindorf")
+HamC <- select(HamC, Site) %>% mutate(Holotype= "Hamburgian (Classic) Point")
+HamH <- filter(Hamburgian, Site=="Havelte Holtingerzand")
+HamH <- select(HamH, Site) %>% mutate(Holotype= "Hamburgian (Havelte) Point")
+Lyn  <- filter(outlinetp, Site=="Nørre Lyngby")
+Lyn  <- select(Lyn, Site) %>% mutate(Holotype= "Lyngby Point")
+App  <- filter(outlinebp, Site=="Appelscha")
+App  <- select(App, Site) %>% mutate(Holotype= "Appelscha Point")
+Azi  <- filter(outlinebp, Site=="Les Chaloignes")
+Azi  <- select(Azi, Site) %>% mutate(Holotype= "Azillian Point")
+Bla  <- filter(outlinebp, Site=="Blanchères")
+Bla  <- select(Bla, Site) %>% mutate(Holotype= "Blanchere Point")
+Mal  <- filter(outlinebp, Site=="Champ-Chalatras")
+Mal  <- select(Kab, Site) %>% mutate(Holotype= "Malarie Point")
+Pet  <- filter(outlinebp, Site=="Borneck-Bornwisch")
+Pet  <- select(Pet, Site) %>% mutate(Holotype= "Petersfels Point")
+Ran  <- filter(outlinebp, Site=="Wehlen")
+Ran  <- select(Ran, Site) %>% mutate(Holotype= "Ranis Point")
+Tau  <- filter(outlinebp, Site=="Taucha")
+Tau  <- select(Tau, Site) %>% mutate(Holotype= "Taucha Point")
+Tjo  <- filter(outlinebp, Site=="Usselo")
+Tjo  <- select(Tjo, Site) %>% mutate(Holotype= "Tjonger Point")
+Wes  <- filter(outlinebp, Site=="Westerbeck")
+Wes  <- select(Wes, Site) %>% mutate(Holotype= "Westerbeck Point")
+Zon  <- filter(outlinebp, Site=="Zonhoven-Molenheide")
+Zon  <- select(Zon, Site) %>% mutate(Holotype= "Zonhoven Point")
+Alt  <- filter(outlinetp, Site=="Borovka")
+Alt  <- select(Alt, Site) %>% mutate(Holotype= "Altinovo Point")
+Kra  <- filter(outlinetp, Site=="Krasnosillya")
+Kra  <- select(Kra, Site) %>% mutate(Holotype= "Krasnosillya Point")
+Tey  <- filter(outlinetp, Site=="Bois-Ragot")
+Tey  <- select(Tey, Site) %>% mutate(Holotype= "Teyjat Point")
+
+holo <- combine(Tey, Fed, Che, Ahr, Bro, Cre, Kra, Alt, Zon, Wes, Tjo, Tau, Ran, Pet, Mal, Bla, Azi, App, Lyn, HamC, HamH)
+holo$fac$Holotype<-as.factor(holo$fac$Holotype)
+holo <- coo_centre(holo)
+holo <- coo_scale(holo)
+calibrate_harmonicpower_efourier(holo)
+efourierholo <- efourier(holo, nb.h = 27, norm = TRUE)
+holomeans <- mshapes(efourierholo, 'Holotype')
+panel(Out(holomeans$shp), names = TRUE, cex.names = 0.5)
+PCAholo <- PCA(efourierholo, center = TRUE, fac = Holotype)
+holomeanspca <- mshapes(PCAholo, 'Holotype')
+
+holomatrix <- holomeanspca$x
+holoml  <- Rcontml(holomatrix, path = NULL, global = TRUE, random.order = TRUE, random.addition = 50) 
+### write.tree(holoml, file = "holomltree")
+### holoml <- read.tree(file = "holo_phylip/holomltree")
+ggtree(holoml, branch.length="none") + xlim(0,17) + geom_tiplab(size = 5) + geom_tippoint(size = 1)
+ggsave("images/holotype_tree_nbl.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
+ggtree(holoml) + xlim(0,0.0003) + geom_tiplab(size = 5) + geom_tippoint(size = 1)
+ggsave("images/holotype_tree.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")

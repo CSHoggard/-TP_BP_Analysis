@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1574783439989.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "84A24515",
+    "lastKnownWriteTime" : 7310028807570858028,
+    "last_content_update" : 1574783439989,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "3B8BBEF1",
+        "caption" : "holomatrix",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=holomatrix&cache_key=3B8BBEF1",
+        "displayedObservations" : 22,
+        "environment" : "",
+        "expression" : "holomatrix",
+        "object" : "holomatrix",
+        "preview" : 0,
+        "totalObservations" : 22,
+        "variables" : 108
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}
