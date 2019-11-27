@@ -640,12 +640,16 @@ holo <- coo_centre(holo)
 holo <- coo_scale(holo)
 calibrate_harmonicpower_efourier(holo)
 efourierholo <- efourier(holo, nb.h = 27, norm = TRUE)
-
+holomeans <- mshapes(efourierholo, 'Holotype')
+panel(Out(holomeans$shp), names = TRUE, cex.names = 0.5)
 PCAholo <- PCA(efourierholo, center = TRUE, fac = Holotype)
-holomeans <- mshapes(PCAholo, fac = "Holotype")
-holomatrix <- holomeans$x
+holomeanspca <- mshapes(PCAholo, 'Holotype')
+
+holomatrix <- holomeanspca$x
 holoml  <- Rcontml(holomatrix, path = NULL, global = TRUE, random.order = TRUE, random.addition = 50) 
 ### write.tree(holoml, file = "holomltree")
 ### holoml <- read.tree(file = "holo_phylip/holomltree")
-ggtree(holoml) + geom_tiplab(size = 3.5)
-
+ggtree(holoml, branch.length="none") + xlim(0,17) + geom_tiplab(size = 5) + geom_tippoint(size = 1)
+ggsave("images/holotype_tree_nbl.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
+ggtree(holoml) + xlim(0,0.0003) + geom_tiplab(size = 5) + geom_tippoint(size = 1)
+ggsave("images/holotype_tree.tiff", plot = last_plot(), dpi = 300, height = 250, width = 300, units = "mm")
