@@ -393,7 +393,7 @@ bpNATml <- read.tree(file = "bpNAT_phylip/bpNATtree")   ### FILE READ (ALTERNATI
 tpNATml <- read.tree(file = "tpNAT_phylip/tpNATtree")   ### FILE READ (ALTERNATIVE)
 
 bpml <- reroot(bpml, 924)         ### REROOT (TO THE OLDEST SPECIMEN)
-tpml <- reroot(tpml, )            ### REROOT (TO THE OLDEST SPECIMEN)
+tpml <- reroot(tpml, XXX)            ### REROOT (TO THE OLDEST SPECIMEN)
 bpatuml <- reroot(bpatuml, 285)   ### REROOT (TO THE OLDEST SPECIMEN)
 tpatuml <- reroot(tpatuml, XXX)   ### REROOT (TO THE OLDEST SPECIMEN)
 bpatu2ml <- reroot(bpatu2ml, XXX) ### REROOT (TO THE OLDEST SPECIMEN)
